@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { IsUniqueConstraint } from './shared/validation/is-unique-constraint';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { BlogModule } from './blog/blog.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsersModule,
     AuthModule,
+    BlogModule,
   ],
   controllers: [AppController],
   providers: [AppService, IsUniqueConstraint],

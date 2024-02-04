@@ -1,4 +1,5 @@
 import { IsEnum } from 'class-validator';
+import { Blog } from 'src/blog/blog.entity';
 import { Role } from 'src/enum/role';
 import {
   Column,
@@ -32,6 +33,6 @@ export class User {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date = new Date();
 
-  // @OneToMany(() => Post, (post) => post.user)
-  // posts: Post[];
+  @OneToMany(() => Blog, (post) => post.user)
+  posts: Blog[];
 }

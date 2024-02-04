@@ -9,7 +9,10 @@ import {
 } from 'typeorm';
 
 export class BaseService<T> {
-  constructor(private readonly repository: Repository<T>) {}
+  constructor(
+    private readonly repository: Repository<T>,
+    private readonly isDeleteUser: boolean = false,
+  ) {}
 
   async deleteOne(
     id: number,
@@ -24,7 +27,7 @@ export class BaseService<T> {
       throw new NotFoundException(`${this.getEntityName()} not found`);
     }
 
-    if (loggedUserId && loggedUserId === id) {
+    if (this.isDeleteUser && loggedUserId && loggedUserId === id) {
       throw new ConflictException(
         `Cannot delete owner ${this.getEntityName().toLowerCase()}`,
       );
@@ -65,7 +68,7 @@ export class BaseService<T> {
       }
     }
 
-    if (loggedUserId && ids.includes(loggedUserId)) {
+    if (this.isDeleteUser && loggedUserId && ids.includes(loggedUserId)) {
       throw new ConflictException(
         `Ids can not include logged ${this.getEntityName().toLowerCase()} id!`,
       );

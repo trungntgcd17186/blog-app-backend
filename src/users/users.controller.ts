@@ -20,7 +20,7 @@ import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enum/role';
 import { UpdateUserDto } from './dto/update-users.dto';
-import { MultipleDeleteDto } from './dto/multiple-delete-users.dto';
+import { MultipleDeleteDto } from '../base/dto/multiple-delete.dto';
 import { FiltersUserDto } from './dto/filters-users.dto';
 
 @Controller('users')
@@ -48,6 +48,7 @@ export class UsersController {
     return this.usersService.getList(filters);
   }
 
+  @Roles([Role.MEMBER, Role.ADMIN])
   @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {

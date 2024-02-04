@@ -1,26 +1,12 @@
 import { Expose } from 'class-transformer';
 import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { BaseDto } from 'src/base/dto/date-dto';
 import { Role } from 'src/enum/role';
 
-export class FiltersUserDto {
-  @IsOptional()
-  @IsString()
-  @Expose()
-  page: string;
-
-  @IsOptional()
-  @IsString()
-  @Expose()
-  limit: string;
-
+export class FiltersUserDto extends BaseDto {
   @IsOptional()
   @Expose()
   email: string;
-
-  @IsOptional()
-  @IsString()
-  @Expose()
-  name: string;
 
   @IsOptional()
   @IsString()

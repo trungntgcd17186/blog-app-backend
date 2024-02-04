@@ -19,11 +19,15 @@ export class UsersService extends BaseService<User> {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {
-    super(userRepository);
+    super(userRepository, true);
   }
 
   findById(id: number) {
-    return this.userRepository.findOne({ where: { id } });
+    try {
+      return this.userRepository.findOne({ where: { id } });
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   findByEmailAndReturnPassword(email: string): Promise<User> {
@@ -76,8 +80,7 @@ export class UsersService extends BaseService<User> {
   async getList(
     filters: FiltersUserDto,
   ): Promise<{ list: User[]; total: number }> {
-    const filterUpdate = omitEmptyField(filters);
-    const { page = 1, limit = 10, role, name, email } = filterUpdate;
+    const { page = 1, limit = 10, role, search, email } = filters;
     const query = this.userRepository.createQueryBuilder('user');
 
     if (page && limit) {
@@ -89,9 +92,9 @@ export class UsersService extends BaseService<User> {
       query.andWhere('user.role = :role', { role });
     }
 
-    if (name) {
+    if (search) {
       query.andWhere(`CONCAT(user.firstName, ' ', user.lastName) ILIKE :name`, {
-        name: `%${name}%`,
+        name: `%${search}%`,
       });
     }
 
@@ -131,7 +134,7 @@ export class UsersService extends BaseService<User> {
       const { password, ...user } = await this.userRepository.save(userUpdated);
       return { success: true, user };
     } catch (error) {
-      console.error('Error while deleting customer:', error);
+      console.error('Error while deleting user:', error);
       return { success: false, error: error.message };
     }
   }
