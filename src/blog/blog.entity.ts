@@ -24,6 +24,9 @@ export class Blog {
   @IsEnum(Categories)
   categories: Categories;
 
+  @Column()
+  imageUrl: string;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date = new Date();
 

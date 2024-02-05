@@ -16,4 +16,9 @@ export class CreateBlogDto {
   @Expose()
   @IsEnum(Categories)
   categories: Categories;
+
+  @Expose()
+  @IsString()
+  @IsNotEmpty()
+  imageUrl: string;
 }

@@ -20,7 +20,10 @@ export class BlogService extends BaseService<Blog> {
 
   findById(id: number) {
     try {
-      return this.blogRepository.findOne({ where: { id } });
+      return this.blogRepository.findOne({
+        where: { id },
+        relations: ['user'],
+      });
     } catch (error) {
       throw new Error(error);
     }
@@ -67,6 +70,7 @@ export class BlogService extends BaseService<Blog> {
     }
 
     const [list, total] = await query
+      .leftJoinAndSelect('blog.user', 'user')
       .orderBy('blog.createdAt', 'DESC')
       .getManyAndCount();
     return { list, total };

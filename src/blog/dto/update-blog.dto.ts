@@ -16,6 +16,12 @@ export class UpdateBlogDto {
   content?: string;
 
   @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  imageUrl?: string;
+
+  @IsOptional()
   @Expose()
   @IsEnum(Categories)
   categories?: Categories;
