@@ -35,6 +35,13 @@ export class UsersController {
     return this.usersService.create(user);
   }
 
+  @Roles([Role.MEMBER, Role.ADMIN])
+  @UseGuards(AuthGuard)
+  @Get('me')
+  async getLoggedUserInfo(@Request() req) {
+    return this.usersService.findById(req.user.sub);
+  }
+
   @Roles([Role.ADMIN])
   @UseGuards(AuthGuard, RolesGuard)
   @Get()

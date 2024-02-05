@@ -45,7 +45,7 @@ export class BlogService extends BaseService<Blog> {
   async getList(
     filters: FiltersBlogDto,
   ): Promise<{ list: Blog[]; total: number }> {
-    const { page = 1, limit = 10, title, search, categories } = filters;
+    const { page = 1, limit = 10, title, content, categories } = filters;
     const query = this.blogRepository.createQueryBuilder('blog');
 
     if (page && limit) {
@@ -59,9 +59,9 @@ export class BlogService extends BaseService<Blog> {
       });
     }
 
-    if (search) {
+    if (content) {
       query.andWhere('blog.content ILIKE :content', {
-        content: `%${search}%`,
+        content: `%${content}%`,
       });
     }
 
