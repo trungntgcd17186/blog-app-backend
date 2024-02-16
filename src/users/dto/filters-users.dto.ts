@@ -1,16 +1,15 @@
-import { Expose } from 'class-transformer';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { BaseDto } from 'src/base/dto/date-dto';
-import { Role } from 'src/enum/role';
+import { CreateUserDto } from './create-users.dto';
+import { Expose } from 'class-transformer';
+import { IsEmail, IsOptional } from 'class-validator';
 
-export class FiltersUserDto extends BaseDto {
+export class FiltersUserDto extends IntersectionType(
+  PartialType(BaseDto),
+  PartialType(PickType(CreateUserDto, ['role'])),
+) {
   @IsOptional()
+  @IsEmail()
   @Expose()
-  email: string;
-
-  @IsOptional()
-  @IsString()
-  @Expose()
-  @IsEnum(Role)
-  role: Role;
+  email?: string;
 }

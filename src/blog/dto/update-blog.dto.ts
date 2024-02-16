@@ -1,28 +1,4 @@
-import { Expose } from 'class-transformer';
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Categories } from 'src/enum/categories';
+import { PartialType } from '@nestjs/swagger';
+import { CreateBlogDto } from './create-blog.dto';
 
-export class UpdateBlogDto {
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  @Expose()
-  title?: string;
-
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  @Expose()
-  content?: string;
-
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  @Expose()
-  imageUrl?: string;
-
-  @IsOptional()
-  @Expose()
-  @IsEnum(Categories)
-  categories?: Categories;
-}
+export class UpdateBlogDto extends PartialType(CreateBlogDto) {}

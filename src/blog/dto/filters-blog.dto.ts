@@ -1,21 +1,10 @@
-import { Expose } from 'class-transformer';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { BaseDto } from 'src/base/dto/date-dto';
-import { Categories } from 'src/enum/categories';
+import { CreateBlogDto } from './create-blog.dto';
 
-export class FiltersBlogDto extends BaseDto {
-  @IsOptional()
-  @Expose()
-  @IsString()
-  title: string;
-
-  @IsOptional()
-  @Expose()
-  @IsString()
-  content: string;
-
-  @IsOptional()
-  @Expose()
-  @IsEnum(Categories)
-  categories: Categories;
-}
+export class FiltersBlogDto extends IntersectionType(
+  PartialType(
+    PickType(CreateBlogDto, ['title', 'content', 'categories'] as const),
+  ),
+  PartialType(BaseDto),
+) {}
